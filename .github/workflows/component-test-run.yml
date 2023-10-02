@@ -33,7 +33,7 @@ jobs:
         with:
           node_version: ${{ env.NODE_VERSION }}
       - name: Run component tests
-        run: yarn cy:ci-ct
+        run: yarn cy:ci-ct --record  --key ${{secrets.CYPRESS_RECORD_KEY}}
 
 
 
