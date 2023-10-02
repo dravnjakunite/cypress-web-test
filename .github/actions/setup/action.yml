@@ -1,0 +1,19 @@
+name: 'Setup'
+description: 'Setup action'
+inputs:
+  node_version:
+    description: 'Node version'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup node ${{ inputs.node_version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node_version }}
+        cache: 'yarn'
+        cache-dependency-path: yarn.lock
+    - name: Install packages
+      run: yarn install
+      shell: bash

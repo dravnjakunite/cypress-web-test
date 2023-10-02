@@ -12,10 +12,15 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
+    "cy:ci": "cypress run --browser chrome",
+    "cy:ci-ct": "CYPRESS_TEST_TYPE=component cypress run --browser chrome --component",
+    "cy:ci-e2e": "cypress run --browser chrome",
+    "cy:open": "cypress open",
+    "cy:open-ct": "CYPRESS_TEST_TYPE=component cypress open --component ",
+    "start": "react-scripts start",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test:ci": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@react-nexus)/\" --ci --watchAll=false"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "packageManager": "yarn@3.6.3",
+  "devDependencies": {
+    "cypress": "^13.3.0"
   }
 }

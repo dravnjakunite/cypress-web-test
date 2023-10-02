@@ -1,0 +1,65 @@
+name: component-test-run
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  repository_dispatch:
+    types:
+      - component-test-run
+
+
+env:
+  NODE_VERSION: 20.7.0
+  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  # Cypress needed: pass GitHub token to allow accurately detecting a build vs a re-run build
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CYPRESS_RECORD: --ci-build-id ${{ github.workflow }}-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }} --record --key ${{secrets.CYPRESS_RECORD_KEY}}
+  CYPRESS_DEFAULT_COMMAND_TIMEOUT: 60000
+
+concurrency:
+  group: pullrequest-inspection-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+        with:
+          node_version: ${{ env.NODE_VERSION }}
+
+  unit-test:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+        with:
+          node_version: ${{ env.NODE_VERSION }}
+      - name: Run unit tests
+        run: yarn test:ci
+
+  component-test:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+        with:
+          node_version: ${{ env.NODE_VERSION }}
+      - name: Run component tests
+        run: yarn cy:ci-ct \
+          ${{ github.event.client_payload.cypress_record == true && '--tag $(date "+%Y/%m/%d-%H:%M") component' }} \
+          ${{ github.event.client_payload.cypress_record == true && '--group component-tests' }} \
+          ${{ github.event.client_payload.cypress_record == true && env.CYPRESS_RECORD }}
+
