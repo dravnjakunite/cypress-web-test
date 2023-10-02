@@ -24,31 +24,7 @@ concurrency:
 
 
 jobs:
-  prepare:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/setup
-        with:
-          node_version: ${{ env.NODE_VERSION }}
-
-  unit-test:
-    needs: prepare
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/setup
-        with:
-          node_version: ${{ env.NODE_VERSION }}
-      - name: Run unit tests
-        run: yarn test:ci
-
   component-test:
-    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -59,7 +35,6 @@ jobs:
           node_version: ${{ env.NODE_VERSION }}
       - name: Run component tests
         run: |
-          yarn cy:ci-ct --key ${{ env.CYPRESS_RECORD_KEY }} --tag $(date "+%Y_%m_%d-%H_%M"),component \
-          --group component-tests ${{ github.event.client_payload.cypress_record == true && '--record' || '' }}
+          yarn cy:ci-ct --key ${{ env.CYPRESS_RECORD_KEY }}
 
 
