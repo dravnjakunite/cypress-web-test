@@ -60,6 +60,6 @@ jobs:
       - name: Run component tests
         run: |
           yarn cy:ci-ct --key ${{ env.CYPRESS_RECORD_KEY }} --tag component \
-          --group component-tests ${{ github.event.client_payload.cypress_record == true && '--record }}
+          --group component-tests ${{ github.event.client_payload.cypress_record == true && '--record' }}
 
 
