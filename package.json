@@ -14,10 +14,10 @@
   "scripts": {
     "build": "react-scripts build",
     "cy:ci": "cypress run --browser chrome",
-    "cy:ci-ct": "CYPRESS_TEST_TYPE=component cypress run --browser chrome --component",
+    "cy:ci-ct": "cypress run --component",
     "cy:ci-e2e": "cypress run --browser chrome",
     "cy:open": "cypress open",
-    "cy:open-ct": "CYPRESS_TEST_TYPE=component cypress open --component ",
+    "cy:open-ct": "CYPRESS_TEST_TYPE=component cypress open --component",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@react-nexus)/\" --ci --watchAll=false"
