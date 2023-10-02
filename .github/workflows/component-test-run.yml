@@ -59,7 +59,7 @@ jobs:
           node_version: ${{ env.NODE_VERSION }}
       - name: Run component tests
         run: |
-          yarn cy:ci-ct --key ${{ env.CYPRESS_RECORD_KEY }} --tag component \
+          yarn cy:ci-ct --key ${{ env.CYPRESS_RECORD_KEY }} --tag $(date "+%Y/%m/%d-%H:%M") component \
           --group component-tests ${{ github.event.client_payload.cypress_record == true && '--record' }}
 
 
