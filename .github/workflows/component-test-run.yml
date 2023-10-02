@@ -32,7 +32,7 @@ jobs:
         with:
           node_version: ${{ env.NODE_VERSION }}
       - name: Run component tests
-        run: yarn cy:ci-ct
+        run: yarn cy:ci-ct --tag $(date "+%Y_%m_%d-%H_%M"),component
 
 
 
