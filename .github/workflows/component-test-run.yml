@@ -12,10 +12,8 @@ on:
 
 env:
   NODE_VERSION: 20.7.0
-  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
   # Cypress needed: pass GitHub token to allow accurately detecting a build vs a re-run build
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CYPRESS_RECORD: --ci-build-id ${{ github.workflow }}-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }} --record --key ${{secrets.CYPRESS_RECORD_KEY}}
   CYPRESS_DEFAULT_COMMAND_TIMEOUT: 60000
 
 concurrency:
@@ -34,6 +32,8 @@ jobs:
         with:
           node_version: ${{ env.NODE_VERSION }}
       - name: Run component tests
-        run: yarn cy:ci-ct ${{ env.CYPRESS_RECORD }}
+        run: yarn cy:ci-ct
+
+
 
 
