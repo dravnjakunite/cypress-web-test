@@ -14,7 +14,7 @@
   "scripts": {
     "build": "react-scripts build",
     "cy:ci": "cypress run --browser chrome",
-    "cy:ci-ct": "cypress run --component",
+    "cy:ci-ct": "CYPRESS_TEST_TYPE=component cypress run --browser chrome --component",
     "cy:ci-e2e": "cypress run --browser chrome",
     "cy:open": "cypress open",
     "cy:open-ct": "CYPRESS_TEST_TYPE=component cypress open --component",
